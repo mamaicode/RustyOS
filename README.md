@@ -8,7 +8,7 @@ A minimal subset of OS with compiled bootloader and simple kernel
 
 ### Dependencies
 
-To use RustOS you must have the following components installed:
+To use RustyOS you must have the following components installed:
 * QEMU - Virtualization technology, check https://www.qemu.org/ for installation guide
 
 To install Bootimage and supporting tools, run following commands

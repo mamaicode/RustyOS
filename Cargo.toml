@@ -1,12 +1,12 @@
 [package]
-name = "RustyOS"
+name = "rusty_os"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bootloader = "0.10.12"
+bootloader = "0.9.18"
 x86_64 = "0.14.10"
 
 [package.metadata.bootimage]
