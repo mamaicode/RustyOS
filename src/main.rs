@@ -8,7 +8,9 @@ use core::panic::PanicInfo;                                             // Allow
 #[panic_handler]
 #[no_mangle]
 pub fn panic(_info: &PanicInfo) -> ! {
-    intrinsics::abort();                                                // Crash
+    unsafe {
+        intrinsics::abort();
+    }                                                                   // Crash
 }
 
 #[no_mangle]
