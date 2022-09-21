@@ -4,6 +4,7 @@
 
 use core::intrinsics;
 use core::panic::PanicInfo;                                             // Allow panic handler to inspect where panic occured
+use x86_64::instructions::{hlt};
 
 #[panic_handler]
 #[no_mangle]
@@ -23,7 +24,9 @@ pub extern "C" fn _start() -> ! {
             .write_volatile(0xC0);                                     // Add color
     }
 
-    loop{}
+    loop{
+        hlt();                                                         // Halt instruction for CPU to save electricity
+    }
 }
 
 
