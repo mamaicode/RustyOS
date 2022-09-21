@@ -18,3 +18,10 @@ To install Bootimage and supporting tools, run following commands:
 * rustup default nightly
 * rustup component add rust-src
 * rustup component add llvm-tools-preview
+
+### More about OSDev
+
+To learn more about OSDev check out the following websites:
+https://docs.rust-embedded.org/ 
+https://wiki.osdev.org/Expanded_Main_Page
+https://os.phil-opp.com/ 
