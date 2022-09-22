@@ -35,7 +35,7 @@ pub extern "C" fn _start() -> ! {
 #[allow(unused)]                                                       // Represents a 16 bit color used for vga display.
 #[derive(Clone, Copy)]
 #[repr(u8)]
-pub enum Color16 {
+pub enum Color16 {                                                     // Enum template for 16 basic colors
     Black   =   0x0,
     Blue    =   0x1,
     Green   =   0x2,
@@ -52,4 +52,32 @@ pub enum Color16 {
     LightGreen  =   0xA,
     LightCyan   =   0xB,
     LightRed    =   0xC,
+}
+
+struct Cursor {                                                         // Cursor struct that handles raw memory manipulation and converts Color16 to readable VGA                                              
+    position: isize,
+    foreground: Color16,
+    background: Color16,
+}
+
+impl Cursor {
+    fn color(&self) -> u8 {
+        let fg = self.foreground as u8;
+        let bg = (self.background as u8) << 4;
+        fg | bg
+    }
+
+    fn print(&mut self, text: &[u8]) {                                  // Input uses a raw byte stream 
+        let color = self.color();
+
+        let framebuffer = 0xb8000 as *mut u8;
+
+        for &character in text {
+            unsafe {
+                framebuffer.offset(self.position).write_volatile(character);
+                framebuffer.offset(self.position + 1).write_volatile(color);
+            }
+            self.position += 2;
+        }
+    }
 }
