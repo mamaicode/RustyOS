@@ -21,12 +21,14 @@ pub extern "C" fn eh_personality() { }
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    let framebuffer = 0xb8000 as *mut u8;
-    unsafe {
-        framebuffer
-            .offset(1)                                                 // Increment pointer address by 1 to 0xb8001 
-            .write_volatile(0x30);                                     // Add color
-    }
+    let text = b"Mom I am twitch famous";
+
+    let mut cursor = Cursor {
+        position: 0,
+        foreground: Color16::Red,
+        background: Color16::Black,
+    };
+    cursor.print(text);
     loop{
         hlt();                                                         // Halt instruction for CPU to save electricity 
     }
