@@ -21,7 +21,7 @@ pub extern "C" fn eh_personality() { }
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    let text = b"Mom I am twitch famous";
+    let text = b"Welcome to RustyOS";
 
     let mut cursor = Cursor {
         position: 0,
