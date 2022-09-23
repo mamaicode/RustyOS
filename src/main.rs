@@ -3,8 +3,8 @@
 #![feature(core_intrinsics)]                                            // Use LLVM intrinsic functions
 #![feature(lang_items)]
 
-use core::fmt::Write;
 use core::fmt;
+use core::fmt::Write;
 use core::intrinsics;
 use core::panic::PanicInfo;                                             // Allow panic handler to inspect where panic occured
 use x86_64::instructions::{hlt};
@@ -81,7 +81,7 @@ pub fn panic(info : &PanicInfo) -> ! {
     cursor.position = 0;
     write!(cursor, "{}", info).unwrap();
     
-    loop { unsafe { hlt(); }}
+    loop { unsafe { hlt(); }}                                           // Save electricity!
 }
 
 #[lang = "eh_personality"]
