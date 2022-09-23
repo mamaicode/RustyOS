@@ -3,36 +3,11 @@
 #![feature(core_intrinsics)]                                            // Use LLVM intrinsic functions
 #![feature(lang_items)]
 
+use core::fmt::Write;
 use core::intrinsics;
 use core::panic::PanicInfo;                                             // Allow panic handler to inspect where panic occured
 use x86_64::instructions::{hlt};
 
-#[panic_handler]
-#[no_mangle]
-pub fn panic(_info: &PanicInfo) -> ! {
-    unsafe {
-        intrinsics::abort();
-    }                                                                   // Crash
-}
-
-#[lang = "eh_personality"]
-#[no_mangle]
-pub extern "C" fn eh_personality() { }
-
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
-    let text = b"Welcome to RustyOS";
-
-    let mut cursor = Cursor {
-        position: 0,
-        foreground: Color16::Red,
-        background: Color16::Black,
-    };
-    cursor.print(text);
-    loop{
-        hlt();                                                         // Halt instruction for CPU to save electricity 
-    }
-}
 
 #[allow(unused)]                                                       // Represents a 16 bit color used for vga display.
 #[derive(Clone, Copy)]
@@ -82,4 +57,37 @@ impl Cursor {
             self.position += 2;
         }
     }
+}
+
+impl fmt::Write for Cursor {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.print(s.as_bytes());
+        Ok(())
+    }
+}
+
+#[panic_handler]
+#[no_mangle]
+pub fn panic(info : &PanicInfo) -> ! {
+    let mut cursor = Cursor {
+        position: 0,
+        foreground: Color16::White,
+        background: Color16::Black,
+    };
+    for _ in 0..(80*25) {
+        cursor.print(b" ");
+    }
+    cursor.position = 0;
+    write!(cursor, "{}", info).unwrap();
+    
+    loop { unsafe { hlt(); }}
+}
+
+#[lang = "eh_personality"]
+#[no_mangle]
+pub extern "C" fn eh_personality() { }
+
+#[no_mangle]
+pub extern "C" fn _start() -> ! {
+    panic!("help!");
 }
