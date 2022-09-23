@@ -4,6 +4,7 @@
 #![feature(lang_items)]
 
 use core::fmt::Write;
+use core::fmt;
 use core::intrinsics;
 use core::panic::PanicInfo;                                             // Allow panic handler to inspect where panic occured
 use x86_64::instructions::{hlt};
