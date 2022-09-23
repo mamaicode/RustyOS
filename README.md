@@ -28,3 +28,11 @@ https://docs.rust-embedded.org/
 https://wiki.osdev.org/Expanded_Main_Page
 
 https://os.phil-opp.com/ 
+
+### How to run RustyOS
+
+To run use following commands:
+
+cargo bootimage
+
+qemu-system-x86_64 -drive format=raw,file=target/debug/bootimage-rusty_os.bin
